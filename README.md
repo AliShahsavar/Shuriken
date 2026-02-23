@@ -1,46 +1,62 @@
-# Shuriken
+# 🥷 Shuriken – All-In-One Directory Enumeration Tool
 
-Shuriken is an all-in-one web directory enumeration tool designed for security researchers and penetration testers. It automates multiple industry-standard scanners within a single workflow and organizes results efficiently.
+Shuriken is a high-performance automation framework built for security researchers and penetration testers. It streamlines web directory enumeration by orchestrating multiple industry-standard tools into a single, efficient workflow.
 
-## Overview
+Instead of manually configuring and running multiple scanners, Shuriken executes them simultaneously and organizes results automatically.
 
-Shuriken eliminates the need to manually configure and execute multiple directory discovery tools. It runs them sequentially within one command and stores outputs in a structured format.
+---
 
-## Integrated Tools
+## 🚀 Features
 
-* Katana
-* FFUF
-* Gobuster
-* Shortscan
-* Dirsearch
+* 🔥 **Multi-Tool Integration**
+  Runs:
 
-## Features
+  * Katana
+  * FFUF
+  * Gobuster
+  * Shortscan
+  * Dirsearch
 
-* Multi-tool execution in a single workflow
-* Automatic dependency detection and installation
-* User-Agent rotation to reduce basic filtering
-* Timestamped output directories per target
-* Safe interruption handling (CTRL+C)
+* ⚙ **Automatic Dependency Management**
+  Detects and installs missing tools and required languages (Go & Python).
 
-## Requirements
+* 🕵️ **Smart User-Agent Rotation**
+  Mimics authentic browser traffic to bypass basic filtering.
 
-Linux-based operating system such as:
+* 📁 **Organized Output Structure**
+  Generates timestamped result directories for each target:
+
+  ```
+  YYYY-MM-DD_domain.com/
+  ```
+
+* 🛑 **Session Resilience**
+  Safe interruption support (`CTRL+C`) without losing collected results.
+
+---
+
+## 🖥️ System Requirements
+
+Shuriken requires a Linux-based environment such as:
 
 * Kali Linux
 * Ubuntu
 
-Go (Golang)
-Python 3
+---
 
-## Installation
+## 🛠 Installation & Setup
 
-### Install Go
+### 1️⃣ Install Go (Golang)
+
+Go is required for several integrated tools.
+
+#### Method A: Snap Installation (Recommended for Ubuntu)
 
 ```bash
 sudo snap install go --classic
 ```
 
-Or manual installation:
+#### Method B: Manual Installation
 
 ```bash
 wget https://go.dev/dl/go1.22.0.linux-amd64.tar.gz
@@ -50,7 +66,11 @@ echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### Setup Python Virtual Environment
+---
+
+### 2️⃣ Setup Python Virtual Environment (Recommended)
+
+To prevent dependency conflicts:
 
 ```bash
 sudo apt update
@@ -60,40 +80,60 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-## Usage
+Ensure `(venv)` appears in your terminal before running Shuriken.
+
+---
+
+## 📌 Usage
+
+### Basic Command
 
 ```bash
 python3 shuriken.py --url <TARGET_URL> --wordlist <PATH_TO_LIST>
 ```
 
-### Arguments
+### Command Line Arguments
 
-| Argument   | Description                                  | Required | Default               |
-| ---------- | -------------------------------------------- | -------- | --------------------- |
-| --url      | Target website (include http:// or https://) | Yes      | N/A                   |
-| --wordlist | Custom directory wordlist path               | No       | wordlist/wordlist.txt |
+| Argument     | Description                                  | Required | Default               |
+| ------------ | -------------------------------------------- | -------- | --------------------- |
+| `--url`      | Target website (include http:// or https://) | ✅ Yes    | N/A                   |
+| `--wordlist` | Custom directory wordlist path               | ❌ No     | wordlist/wordlist.txt |
 
-## Output Structure
+---
 
-Results are stored in:
+## 📂 Output Structure
+
+All results are stored inside the `output/` directory.
+
+Example:
 
 ```
-output/YYYY-MM-DD_domain.com/
+output/
+└── 2026-02-23_example.com/
+    ├── katana-result.txt
+    ├── ffuf-result.txt
+    ├── gobuster-result.txt
+    ├── shortscan-result.txt
+    └── dirsearch-result.txt
 ```
 
-Files generated:
+Each scan generates its own timestamped folder.
 
-* katana-result.txt
-* ffuf-result.txt
-* gobuster-result.txt
-* shortscan-result.txt
-* dirsearch-result.txt
+---
 
-## Legal Disclaimer
+## ⚠️ Important Notice
 
-This tool is intended for educational purposes and authorized security testing only. Do not use it against any system without explicit written permission. The author and Rasad Security Group assume no liability for misuse.
+> **Legal & Safety Disclaimer**
+>
+> Shuriken is intended strictly for educational purposes and authorized security testing.
+>
+> Do **NOT** use this tool against any system without explicit written permission.
+>
+> The author and Rasad Security Group assume no responsibility for misuse or unauthorized activities.
 
-## Author
+---
 
-Ali Shahsavar
-Rasad Security Group
+## 👨‍💻 Author
+
+**Ali Shahsavar**
+Organization: Rasad Security Group
