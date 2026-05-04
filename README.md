@@ -1,7 +1,3 @@
-Got it — you don’t want a rewrite, you want your **same README style**, just updated to reflect your new code. Here’s a clean version that stays very close to yours but matches what your script actually does now:
-
----
-
 ## Shuriken: Automated Web Directory Scanner
 
 Shuriken is a fast tool for security testing. It runs several popular scanners at the same time and puts all the results in one place. This saves time for researchers and security professionals.
