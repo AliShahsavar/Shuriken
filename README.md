@@ -1,4 +1,4 @@
-**Shuriken 🥷**
+## Shuriken 🥷
 
 **Shuriken** is an all-in-one directory enumeration tool designed to automate web path discovery using multiple popular scanners in one run.
 
