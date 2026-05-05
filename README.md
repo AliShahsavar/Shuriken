@@ -1,131 +1,67 @@
-## Shuriken: Automated Web Directory Scanner
+# Shuriken 🥷
 
-Shuriken is a fast tool for security testing. It runs several popular scanners at the same time and puts all the results in one place. This saves time for researchers and security professionals.
+**Shuriken** is an all-in-one directory enumeration tool designed to automate web path discovery using multiple popular scanners in one run.
 
-### Main Features
+It helps security researchers and pentesters quickly find hidden files and directories on a target website by combining the power of several tools.
 
-* **Runs Multiple Tools:** Uses Katana, FFUF, Gobuster, Shortscan, and Dirsearch together.
-* **Auto Dependency Check:** Automatically checks and installs required tools and dependencies.
-* **Smart Scanning:** Uses random User-Agents to mimic real browsers and avoid basic blocking.
-* **Organized Output:** Saves results in folders named by date and target domain.
-* **Interrupt Safe:** Saves results even if the scan is stopped (CTRL+C supported).
+## Features
 
-### Requirements
+* Combines multiple tools:
 
-* **System:** Linux (Kali Linux or Ubuntu recommended)
-* **Languages:** Python3 and Go
+  * ffuf
+  * gobuster
+  * katana
+  * shortscan
+  * dirsearch
+* Automatic dependency checking and setup
+* Random User-Agent rotation to help bypass basic protections
+* Clean and organized output structure
+* Handles interruptions safely (CTRL+C)
 
----
+## Installation
 
-### How to Install
-
-#### 1. Install Go
-
-On **Ubuntu**, install Go using Snap:
-
-```bash
-sudo snap install go --classic
-```
-
-Or download manually from:
-[https://go.dev/dl/](https://go.dev/dl/)
-
-#### 2. Prepare Python Environment
+Clone the repository and make sure required tools are in the `tools/` directory.
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+git clone <repo-url>
+cd shuriken
 ```
 
-#### 3. Install Python Requirements
+Make sure you have:
+
+* Go installed
+* Python3 installed
+
+## Usage
+
+Basic usage:
 
 ```bash
-pip install -r tools/dirsearch/requirements.txt
+python3 shuriken.py -u http://example.com
 ```
 
----
-
-### Project Structure (Important)
-
-Make sure required tools exist in the correct paths:
-
-```
-tools/
-├── katana/
-├── ffuf/
-├── gobuster/
-├── shortscan/
-├── dirsearch/
-```
-
----
-
-### How to Use
-
-**Run a scan:**
+With custom wordlist:
 
 ```bash
-python3 shuriken.py --url <TARGET_URL>
+python3 shuriken.py -u http://example.com -w wordlist.txt
 ```
 
-**With custom wordlist:**
+## Output
 
-```bash
-python3 shuriken.py --url <TARGET_URL> --wordlist <PATH_TO_LIST>
-```
-
----
-
-### Options
-
-| Option             | Purpose              | Required | Default                 |
-| :----------------- | :------------------- | :------- | :---------------------- |
-| `-u`, `--url`      | Target website URL   | Yes      | None                    |
-| `-w`, `--wordlist` | Custom wordlist path | No       | `wordlist/wordlist.txt` |
-
----
-
-### Output
-
-All results are stored in the `output/` directory.
-
-**Example:**
+All results are saved automatically in:
 
 ```
-output/2026-05-04_example.com/
+output/<date>_<target-domain>/
 ```
 
-**Files include:**
+Each tool generates its own result file for easier analysis.
 
-* `ffuf-result.json / txt`
-* `gobuster-result.txt`
-* `katana-result.txt`
-* `shortscan-result.txt`
-* `dirsearch-result.txt`
+## Notes
 
----
+* The script will attempt to install missing dependencies automatically.
+* Tools are executed sequentially.
+* Make sure you have proper permissions when scanning targets.
 
-### Notes
+## Disclaimer
 
-* Automatically removes trailing `/` from URLs
-* Uses random User-Agent from:
-
-```
-useragents/user-agents.txt
-```
-
-* Falls back to a default User-Agent if file is missing
-
----
-
-### Rules & Safety
-
-Only use this tool on websites you own or have permission to test.
-Unauthorized scanning is illegal.
-
-The author is not responsible for misuse of this tool.
-
----
-
-**Author:** Ali Shahsavar
-**Group:** Rasad Security Group
+This tool is intended for educational purposes and authorized security testing only. Do not use it on systems without permission.
