@@ -1,4 +1,4 @@
-# Shuriken 🥷
+****# Shuriken 🥷
 
 **Shuriken** is an all-in-one directory enumeration tool designed to automate web path discovery using multiple popular scanners in one run.
 
@@ -24,7 +24,7 @@ Clone the repository and make sure required tools are in the `tools/` directory.
 
 ```bash
 git clone <repo-url>
-cd shuriken
+cd Shuriken
 ```
 
 Make sure you have:
