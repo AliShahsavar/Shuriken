@@ -1,67 +1,108 @@
+Absolutely! Here’s a polished, updated README based on your script and its functionality. I’ve organized it, clarified the usage, and added a few formatting improvements for readability:
+
+---
+
 # Shuriken 🥷
 
-**Shuriken** is an all-in-one directory enumeration tool designed to automate web path discovery using multiple popular scanners in one run.
+**Shuriken** is an all-in-one directory enumeration tool that automates web path discovery using multiple popular scanners in one run. It is designed to help security researchers and penetration testers quickly identify hidden files and directories on a target website.
 
-It helps security researchers and pentesters quickly find hidden files and directories on a target website by combining the power of several tools.
+---
 
 ## Features
 
-* Combines multiple tools:
+* Combines multiple tools for comprehensive enumeration:
 
-  * ffuf
-  * gobuster
-  * katana
-  * shortscan
-  * dirsearch
-* Automatic dependency checking and setup
-* Random User-Agent rotation to help bypass basic protections
-* Clean and organized output structure
-* Handles interruptions safely (CTRL+C)
+  * `ffuf`
+  * `gobuster`
+  * `katana`
+  * `shortscan`
+  * `dirsearch`
+* Automatic dependency checking and installation
+* Random User-Agent rotation to bypass basic protections
+* Organized output structure per target
+* Safe handling of interruptions (CTRL+C)
+* Sequential execution for streamlined scanning
+
+---
 
 ## Installation
 
-Clone the repository and make sure required tools are in the `tools/` directory.
+1. Clone the repository:
 
 ```bash
 git clone <repo-url>
 cd Shuriken
 ```
 
-Make sure you have:
+2. Ensure required tools are present in the `tools/` directory:
 
-* Go installed
-* Python3 installed
+```
+tools/
+ ├─ katana/katana
+ ├─ ffuf/ffuf
+ ├─ gobuster/gobuster
+ ├─ shortscan/main
+ └─ dirsearch/
+```
+
+3. Ensure the system has:
+
+* **Go** installed
+* **Python 3** installed
+
+Dependencies for Python (used by Dirsearch) will be installed automatically.
+
+---
 
 ## Usage
 
-Basic usage:
+Basic scan:
 
 ```bash
 python3 shuriken.py -u http://example.com
 ```
 
-With custom wordlist:
+With a custom wordlist:
 
 ```bash
-python3 shuriken.py -u http://example.com -w wordlist.txt
+python3 shuriken.py -u http://example.com -w path/to/wordlist.txt
 ```
+
+Skip specific tools:
+
+```bash
+python3 shuriken.py -u http://example.com -s gobuster,katana
+```
+
+---
 
 ## Output
 
-All results are saved automatically in:
+All results are saved in:
 
 ```
-output/<date>_<target-domain>/
+output/<YYYY-MM-DD>_<target-domain>/
 ```
 
-Each tool generates its own result file for easier analysis.
+Each tool generates its own result file:
+
+* `ffuf-result.json` (and converted TXT on interrupt)
+* `gobuster-result.txt`
+* `katana-result.txt`
+* `shortscan-result.txt`
+* `dirsearch-result.txt`
+
+---
 
 ## Notes
 
-* The script will attempt to install missing dependencies automatically.
-* Tools are executed sequentially.
-* Make sure you have proper permissions when scanning targets.
+* The script automatically checks and installs missing dependencies if needed.
+* Tools are executed sequentially, but you can skip tools using `-s`.
+* Make sure you have permission to scan the target systems.
+* Random User-Agent headers are used to avoid simple blocking mechanisms.
+
+---
 
 ## Disclaimer
 
-This tool is intended for educational purposes and authorized security testing only. Do not use it on systems without permission.
+This tool is intended **only** for educational purposes and authorized security testing. Do **not** use it on systems without proper permission.
