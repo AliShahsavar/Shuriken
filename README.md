@@ -1,7 +1,3 @@
-Absolutely! Here’s a polished, updated README based on your script and its functionality. I’ve organized it, clarified the usage, and added a few formatting improvements for readability:
-
----
-
 # Shuriken 🥷
 
 **Shuriken** is an all-in-one directory enumeration tool that automates web path discovery using multiple popular scanners in one run. It is designed to help security researchers and penetration testers quickly identify hidden files and directories on a target website.
