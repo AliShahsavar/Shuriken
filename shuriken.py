@@ -20,7 +20,7 @@ class Color:
     UNDERLINE = '\033[4m'
     RESET = '\033[0m'
 
-# Program Logo (Shuriken)
+# Program Logo
 header = f"""{Color.CYAN} 
 
                       00                                        
@@ -36,18 +36,17 @@ header = f"""{Color.CYAN}
            000   000001000000   000            
                    000010010                    
                   00010001001                   
-               0100000    0010010               
-               000100      010000               
-              00100010    00000000              
-              001000        000110              
-             00000             00000            
-             00                   00            
-                                                
+               0100000    0010010                
+               000100      010000                
+              00100010    00000000               
+              001000        000110               
+             00000             00000               
+             00                   00               
+                                                 
     Shuriken By Rasad Security Group ~ V1.0 
         Author : Ali Shahsavar
     ALL-IN-ONE Directory Enumeration Tool
-"""
-{Color.RESET}
+{Color.RESET}"""
 
 print(header)
 
@@ -64,34 +63,44 @@ check_list = {
 
 # Get current date for output folder naming
 NOW_DATE = datetime.today().strftime('%Y-%m-%d')
-# Get user inputs (URL and Wordlist)
-# Gereftan e voroudi ha az karbar (URL va Wordlist)
+
+# --- Argument Parsing ---
 parser = argparse.ArgumentParser(description="Shuriken: All-in-One Directory Enumeration Tool")
 
-# Required Argument: URL
 parser.add_argument("-u", "--url", 
                     help="Target URL (e.g., http://example.com)", 
                     metavar="URL", 
                     required=True)
 
-# Optional Argument: Wordlist
 parser.add_argument("-w", "--wordlist", 
                     help="Path to custom wordlist (default: wordlist/wordlist.txt)", 
                     default="wordlist/wordlist.txt", 
                     metavar="PATH",
                     required=False)
 
+parser.add_argument("-s", "--skip", 
+                    help="Tools to skip, separated by commas (e.g., gobuster,katana)", 
+                    default="", 
+                    required=False)
+
 args = parser.parse_args()
+
+# Process skip list: split by comma, strip whitespace, and lowercase
+skip_list = [tool.strip().lower() for tool in args.skip.split(",")] if args.skip else []
+
 # Extract domain from URL for folder organization
 parsed_domain = urlparse(args.url)
-string_domain = str(args.url)
+if parsed_domain.scheme not in ["https", "http"]:
+    print(f"{Color.RED}[!] Error: URL must start with http:// or https://{Color.RESET}")
+    exit(1)
+
 output_path = f"{NOW_DATE}_{parsed_domain.netloc}"
 
 # Remove trailing slash from URL if present
 if args.url.endswith("/"):
   args.url = args.url[:-1]
 
-# Fetch a random User-Agent from file to bypass basic filters
+# Fetch a random User-Agent
 def get_user_agent():
   try:
       with open("useragents/user-agents.txt",'r+') as file : 
@@ -100,7 +109,7 @@ def get_user_agent():
   except FileNotFoundError:
       return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
-# Terminal commands for each tool
+# Terminal commands
 dir_enum_shells = {
     "ffuf": (
         f"ffuf -u {args.url}/FUZZ -w '{args.wordlist}' "
@@ -147,7 +156,6 @@ def ffuf_test():
         proc = subprocess.Popen(command, shell=True)
         proc.wait()
     except KeyboardInterrupt:
-        # If user interrupts, convert JSON to TXT for better readability
         subprocess.run("\necho [-] CTRL+C Detected - Output Saved; sleep 3", shell=True)
         try:
             with open(f"output/{output_path}/ffuf-result.json", "r") as json_file:
@@ -186,27 +194,51 @@ def dirsearch_test():
     except KeyboardInterrupt:
         subprocess.run("\necho [-] CTRL+C Detected - Output Saved ; sleep 3", shell=True)
 
-# Main Entry Point
+# --- Main Entry Point ---
 def main_function():
-    # Create output directories if they don't exist
     if not os.path.exists("output"):
       os.system(f"mkdir output")
     if not os.path.exists(f"output/{output_path}"):
       os.system(f"mkdir output/{output_path}")
       
     print("[~] Starting tests - Please wait...")
-    katana_test()
-    print(f"{Color.GREEN}[+] Katana Finished.{Color.RESET}")  
-    ffuf_test()
-    print(f"{Color.GREEN}[+] FFUF Finished.{Color.RESET}")  
-    gobuster_test()
-    print(f"{Color.GREEN}[+] GoBuster Finished.{Color.RESET}")  
-    shortscan_test()
-    print(f"{Color.GREEN}[+] Shortscan Finished.{Color.RESET}")  
-    dirsearch_test()
-    print(f"{Color.GREEN}[+] Dirsearch Finished.{Color.RESET}")  
+    
+    # Katana
+    if "katana" not in skip_list:
+        katana_test()
+        print(f"{Color.GREEN}[+] Katana Finished.{Color.RESET}")  
+    else:
+        print(f"{Color.YELLOW}[!] Skipping Katana (User Request).{Color.RESET}")
 
-# --- Dependency Installation Section ---
+    # FFUF
+    if "ffuf" not in skip_list:
+        ffuf_test()
+        print(f"{Color.GREEN}[+] FFUF Finished.{Color.RESET}")  
+    else:
+        print(f"{Color.YELLOW}[!] Skipping FFUF (User Request).{Color.RESET}")
+
+    # GoBuster
+    if "gobuster" not in skip_list:
+        gobuster_test()
+        print(f"{Color.GREEN}[+] GoBuster Finished.{Color.RESET}")  
+    else:
+        print(f"{Color.YELLOW}[!] Skipping GoBuster (User Request).{Color.RESET}")
+
+    # Shortscan
+    if "shortscan" not in skip_list:
+        shortscan_test()
+        print(f"{Color.GREEN}[+] Shortscan Finished.{Color.RESET}")  
+    else:
+        print(f"{Color.YELLOW}[!] Skipping Shortscan (User Request).{Color.RESET}")
+
+    # Dirsearch
+    if "dirsearch" not in skip_list:
+        dirsearch_test()
+        print(f"{Color.GREEN}[+] Dirsearch Finished.{Color.RESET}")  
+    else:
+        print(f"{Color.YELLOW}[!] Skipping Dirsearch (User Request).{Color.RESET}")
+
+# --- Dependency Section ---
 
 def install_python():
   try : 
@@ -241,7 +273,6 @@ def install_ffuf():
 def install_gobuster():
   if os.path.exists("tools/gobuster/gobuster"):
     print("[*] Installing GoBuster...")
-    # Copy binary to system path for global access
     subprocess.run(["sudo cp tools/gobuster/gobuster /usr/local/bin/gobuster"], shell=True)
     print(f"{Color.GREEN}[+] GoBuster installed successfully.{Color.RESET}")
     check_list["gobuster"] = 1
@@ -259,13 +290,11 @@ def install_shortscan():
     print(f"{Color.RED}[-] Shortscan installation failed: Source binary not found.{Color.RESET}")
     check_list["shortscan"] = 0
 
-# Verify if dependencies are installed
 def checking_dependencies():
   print(f"{Color.YELLOW}[#] Ensure the latest version of Go is installed.{Color.RESET}")  
   print("[*] Checking dependencies...")
   time.sleep(1)
   
-  # Check Go (many tools rely on it)
   try:
       go_version = subprocess.run(["go", "version"], capture_output=True, text=True, check=True)
       output = go_version.stdout.strip()
@@ -275,7 +304,6 @@ def checking_dependencies():
       check_list["go"] = 0 
 
   if check_list["go"] == 1: 
-    # Check Python
     try:
         py_result = subprocess.run(["python3","--version"], capture_output=True, text=True, check=True)
         output = py_result.stdout.strip()
@@ -285,7 +313,6 @@ def checking_dependencies():
         print(f"{Color.RED}[!] Python3 is not installed.{Color.RESET}")
         install_python()
 
-    # Install Python requirements for Dirsearch
     try:
         print("[*] Checking Python requirements...")
         subprocess.run(["pip3 install -r tools/dirsearch/requirements.txt"], shell=True, check=True)
@@ -294,31 +321,26 @@ def checking_dependencies():
         print(f"{Color.RED}[-] Failed to install Python requirements.{Color.RESET}")
         check_list["python-req"] = 0
 
-    # Check individual tool binaries in system path
-    # Katana
     if os.path.exists("/usr/local/bin/katana"):
         print(f"{Color.GREEN}[+] Katana is already installed.{Color.RESET}")
         check_list["katana"] = 1
     else: install_katana()
-    # FFUF
+
     if os.path.exists("/usr/local/bin/ffuf"):
         print(f"{Color.GREEN}[+] FFUF is already installed.{Color.RESET}")
         check_list["ffuf"] = 1
     else: install_ffuf()
     
-    # GoBuster
     if os.path.exists("/usr/local/bin/gobuster"):
         print(f"{Color.GREEN}[+] GoBuster is already installed.{Color.RESET}")
         check_list["gobuster"] = 1
     else: install_gobuster()
 
-    # Shortscan
     if os.path.exists("/usr/local/bin/main"):
         print(f"{Color.GREEN}[+] Shortscan is already installed.{Color.RESET}")
         check_list["shortscan"] = 1
     else: install_shortscan()
 
-    # Start the program if most tools are ready
     if sum(check_list.values()) == 7 : 
       print(f"\n{Color.PURPLE}~ Welcome to Shuriken =){Color.RESET}")
       main_function()
@@ -328,8 +350,5 @@ def checking_dependencies():
   else:
     print(f"{Color.RED}[!] Go is not installed. Shutting down...{Color.RESET}")
 
-# Validate URL before execution
-if parsed_domain.scheme not in ["https", "http"]:
-  raise argparse.ArgumentTypeError("URL must start with http:// or https://")
-else:
-  checking_dependencies()
+# Start
+checking_dependencies()
