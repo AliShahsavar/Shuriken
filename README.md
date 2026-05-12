@@ -30,18 +30,7 @@ git clone <repo-url>
 cd Shuriken
 ```
 
-2. Ensure required tools are present in the `tools/` directory:
-
-```
-tools/
- ├─ katana/katana
- ├─ ffuf/ffuf
- ├─ gobuster/gobuster
- ├─ shortscan/main
- └─ dirsearch/
-```
-
-3. Ensure the system has:
+2. Ensure the system has:
 
 * **Go** installed
 * **Python 3** installed
