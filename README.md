@@ -71,7 +71,7 @@ output/<YYYY-MM-DD>_<target-domain>/
 
 Each tool generates its own result file:
 
-* `ffuf-result.json` (and converted TXT on interrupt)
+* `ffuf-result.txt` 
 * `gobuster-result.txt`
 * `katana-result.txt`
 * `shortscan-result.txt`
@@ -81,11 +81,12 @@ Each tool generates its own result file:
 
 ## Notes
 
+* Script using a default wordlist, for better result use a custome wordlist.
 * The script automatically checks and installs missing dependencies if needed.
 * Tools are executed sequentially, but you can skip tools using `-s`.
 * Make sure you have permission to scan the target systems.
 * Random User-Agent headers are used to avoid simple blocking mechanisms.
-
+    
 ---
 
 ## Disclaimer
