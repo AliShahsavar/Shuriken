@@ -13,6 +13,7 @@
   * `katana`
   * `shortscan`
   * `dirsearch`
+    
 * Automatic dependency checking and installation
 * Random User-Agent rotation to bypass basic protections
 * Organized output structure per target
@@ -81,12 +82,12 @@ Each tool generates its own result file:
 
 ## Notes
 
-* Script using a default wordlist, for better result use a custome wordlist.
+* The script using a default wordlist, for better result use a custome wordlist.
 * The script automatically checks and installs missing dependencies if needed.
 * Tools are executed sequentially, but you can skip tools using `-s`.
 * Make sure you have permission to scan the target systems.
 * Random User-Agent headers are used to avoid simple blocking mechanisms.
-    
+
 ---
 
 ## Disclaimer
