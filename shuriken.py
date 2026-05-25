@@ -43,7 +43,7 @@ header = f"""{Color.CYAN}
              00000             00000               
              00                   00               
                                                  
-    Shuriken By Rasad Security Group ~ V1.0 
+    Shuriken By Rasad Security Group ~ V1.2 
         Author : Ali Shahsavar
     ALL-IN-ONE Directory Enumeration Tool
 {Color.RESET}"""
